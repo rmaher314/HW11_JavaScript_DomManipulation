@@ -23,7 +23,11 @@ var form = d3.select("#datetime");
 
 // Event Handlers
 button.on("click", runEnter);
-form.on("submit",runEnter); 
+form.on("keypress",function() {
+    if(d3.event.keyCode === 13){
+        runEnter();
+    }});
+  
 
 function runEnter() {
     console.log("runEnter called")
@@ -34,6 +38,8 @@ function runEnter() {
     //It is either line 34 or 22 that is wrong.
     var inputElement = d3.select("#datetime");
     var inputValue = inputElement.property("value");
+    var dateInputValue = new Date(inputValue);
+    console.log("date object: ", dateInputValue.toLocaleDateString())
     //todo convert inputValue to date format
 
     //clears out the ufo table
@@ -46,8 +52,9 @@ function runEnter() {
         match = false;
         Object.entries(ufoSighting).forEach(([key, value]) => {
             if(key == "datetime"){
-                //todo - convert value to date format
-                if(value == inputValue){
+                var compareDateValue = new Date(value);
+                //console.log(dateInputValue.getTime() === compareDateValue.getTime());
+                if(dateInputValue.getTime() === compareDateValue.getTime()){
                     console.log("match", value)
                     match = true;
                 }
